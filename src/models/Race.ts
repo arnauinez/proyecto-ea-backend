@@ -25,4 +25,4 @@ const RaceSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Carreras', RaceSchema);
+module.exports = mongoose.model('Races', RaceSchema);
