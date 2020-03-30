@@ -1,4 +1,4 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //Schema
@@ -6,19 +6,32 @@ const Schema = mongoose.Schema;
 const UserSchema = mongoose.Schema({
     Username: {
         type: String,
-        required: true
+        required: true, 
+        max: 255, 
+        min: 6
+    },
+    Email: {
+        type: String,
+        required: true,
+        max: 255, 
+        min: 6
     },
     Password: {
         type: String,
+        required: true,
+        max: 1024, 
+        min: 6
+    },
+    Photo: {
+        type: String,
+    },
+    Rithm: {
+        type: Float32Array,
         required: true
     },
     Races: {
         type: Schema.Types.ObjectId,
         ref: "Race"
-    },
-    Date: {
-        type: Date,
-        default: Date.now
     }
 });
 // Turn the schema into a model
