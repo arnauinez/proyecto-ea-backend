@@ -1,9 +1,12 @@
+import { Schema } from "mongoose";
+
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const Schema = mongoose.Schema;
 
 //Schema
 
 const UserSchema = mongoose.Schema({
+    _id: mongoose.Schema.ObjectId,
     Username: {
         type: String,
         required: true, 
@@ -26,13 +29,13 @@ const UserSchema = mongoose.Schema({
         type: String,
     },
     Rithm: {
-        type: Float32Array,
+        type: mongoose.Decimal128,
         required: true
     },
-    Races: {
-        type: Schema.Types.ObjectId,
+    History: [{ 
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Race"
-    }
+    }]
 });
 // Turn the schema into a model
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Users', UserSchema);

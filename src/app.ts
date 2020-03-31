@@ -2,16 +2,34 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express'
 require('dotenv').config();
-
+const swaggerJsDoc = require('swagger-jsdoc') 
 const app: express.Application = express();
+const swaggerOptions = {
+    swaggerDefinition: {
+      info: {
+        title: "Runnea API",
+        description: "Runnea Dev",
+        contact: {
+          name: "Admin"
+        },
+        servers: ["http://localhost:5000"]
+      }
+    },
+    // ['.routes/*.js']
+    apis: ["app.js"]
+  };
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middlewares
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(cors());
 app.use(bodyParser.json());
 
 //Import Routes
 const raceRoute = require('./routes/races');
+const authRoute = require('./routes/auth');
 app.use('/races', raceRoute);
 
 app.get('/', (req, res) => {

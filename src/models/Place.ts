@@ -9,13 +9,13 @@ const PlaceSchema = mongoose.Schema({
         required: true
     },
     N: {
-        type: Float32Array,
+        type: mongoose.Decimal128,
         required: true
     },
     E: {
-        type: Float32Array,
+        type: mongoose.Decimal128,
         required: true
     }
 });
 // Turn the schema into a model
-module.exports = mongoose.model('Place', PlaceSchema);
+module.exports = mongoose.model('Places', PlaceSchema);

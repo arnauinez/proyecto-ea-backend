@@ -1,50 +1,45 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+ const mongoose = require('mongoose');
 
 //Schema
 
 const RaceSchema = mongoose.Schema({
+    _id: mongoose.Schema.ObjectId,
     Title: {
         type: String,
-        required: true
+        required: true,
+        max: 255, 
+        min: 6
     },
     Author: {
         type: String,
-        required: true
+        required: true,
+        max: 25, 
+        min: 6
     },
     Description: {
         type: String,
-        required: true
+        required: true,
+        max: 2550, 
+        min: 6
     },
     DateTime: {
-        type: String,
-        required: true
+        type: Date,
+        default: Date
     },
-    StartingPoint: {
-        type: Schema.Types.ObjectId,
-        ref: "Place", 
-        require: true
+    StartingPoint: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Place"
     },
-    EndPoint: {
-        type: Schema.Types.ObjectId,
-        ref: "Place", 
-        require: true
+    EndPoint: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Place"
     },
     Route: {
         type: String,
-        required: true
     },
     Distance: {
-        type: Float32Array,
-        required: true
+        type: mongoose.Decimal128
     },
-    ElapsedTime: {
-        type: Float32Array,
-    },
-    Date: {
-        type: Date,
-        default: Date.now
-    }
 });
 
 module.exports = mongoose.model('Races', RaceSchema);
