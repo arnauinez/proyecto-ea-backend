@@ -16,18 +16,19 @@ router.get('/', async (req, res) => {
 //POST RACE
 router.post('/', async (req, res) => {
     const race = new Race({
-        Title: req.body.Title,
-        Author: req.body.Author,
-        Description: req.body.Description,
+        title: req.body.title,
+        // Author: req.body.Author,
+        description: req.body.description,
         // StartingPoint: req.body.Place,
         // EndPoint: req.body.Place,
-        Route: req.body.Route,
-        Distance: req.body.Distance
+        // Route: req.body.Route,
+        // Distance: req.body.Distance
     });
     // res.json(race);
     try {
         const savedRace = await race.save();
         res.json(savedRace);
+        console.log(savedRace);
     }
     catch(err) {
         res.json({race: err});

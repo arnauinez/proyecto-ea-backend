@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 // Connect to DB
 mongoose.connect( 
-    String(process.env.DB_CONNECTION),
+    'mongodb+srv://dbuser:dbpass@cluster0-8hrhz.mongodb.net/test?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => { console.log('Connected to DB!')}
 );
