@@ -4,33 +4,20 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express'
 require('dotenv').config();
-const swaggerJsDoc = require('swagger-jsdoc') 
+import * as swaggerDoc from './swagger.json';
 const app: express.Application = express();
-const swaggerOptions = {
-    swaggerDefinition: {
-      info: {
-        title: "Runnea API",
-        description: "Runnea Dev",
-        contact: {
-          name: "Admin"
-        },
-        servers: ["http://localhost:5000"]
-      }
-    },
-    // ['.routes/*.js']
-    apis: ["app.js"]
-  };
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const PORT = 3600;
+
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // Middlewares
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use(cors());
-app.use(bodyParser.json());
+// app.use(cors());
+// app.use(bodyParser.json());
 
 //Import Routes
-const raceRoute = require('./routes/races');
-const authRoute = require('./routes/auth');
-app.use('/races', raceRoute);
+// const raceRoute = require('./routes/races');
+// const authRoute = require('./routes/auth');
+// app.use('/races', raceRoute);
 
 app.get('/', (req, res) => {
     res.send('Home');
@@ -43,4 +30,19 @@ mongoose.connect(
     () => { console.log('Connected to DB!')}
 );
 
-app.listen(3600, () => {console.log('Server is running')});
+app.listen(PORT, () => {
+    console.log('Server is running');
+});
+
+// () => {
+//     return new Promise((resolve, reject) => {
+//         app.listen(
+//             PORT,
+//             () => {
+//                 resolve(PORT);
+//                 console.log('Server is running');
+//             }
+//             // .on('error', (err: object) => reject(err))
+//         )
+//     })
+// }
