@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 import Validators from '../helpers/validators';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // const registerValidator = require('../controllers/validations');
 // const loginValidation = require('../controllers/validations');
@@ -31,10 +32,26 @@ import bcrypt from 'bcryptjs';
      });
     try {
         const savedUser = await user.save();
-        res.send(savedUser);
+        res.send({ _id: user._id });
     }catch(err){
          res.status(400).send(err);
      }
+ });
+
+ router.post('/login', async (req, res) => {
+  // User Validation
+  const { error } = Validators.loginValidator(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+   
+  //Check if user exists
+  const user = await User.findOne({ Username: req.body.Username });
+  if (!user) return res.status(400).send('Username or password is wrong');
+
+  const validPass = await bcrypt.compare(req.body.Password, user.Password);
+  if (!validPass) return res.status(400).send('Invalid password');
+  
+  const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));
+  res.header('auth-token', token).send(token);
  });
 
 module.exports = router;
