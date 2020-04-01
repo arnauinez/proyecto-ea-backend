@@ -15,16 +15,25 @@ router.get('/', async (req, res) => {
 
 //POST RACE
 router.post('/', async (req, res) => {
-    const race = new Race({
-        title: req.body.title,
-        // Author: req.body.Author,
-        description: req.body.description,
-        // StartingPoint: req.body.Place,
-        // EndPoint: req.body.Place,
-        // Route: req.body.Route,
-        // Distance: req.body.Distance
+    const StartingPoint_temp = new Place ({
+        Name: req.body.StartingPoint.Name,
+        N: req.body.StartingPoint.N,
+        E: req.body.StartingPoint.E
     });
-    // res.json(race);
+    const EndPoint_temp = new Place ({
+        Name: req.body.EndPoint.Name,
+        N: req.body.EndPoint.N,
+        E: req.body.EndPoint.E
+    });
+    const race = new Race({
+        Title: req.body.Title,
+        Author: req.body.Author,
+        Description: req.body.Description,
+        Route: req.body.Route,
+        Distance: req.body.Distance
+    });
+    race.StartingPoint = StartingPoint_temp;
+    race.EndPoint = EndPoint_temp;
     try {
         const savedRace = await race.save();
         res.json(savedRace);
