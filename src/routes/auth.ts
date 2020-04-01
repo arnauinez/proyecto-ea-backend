@@ -1,7 +1,9 @@
 import express from 'express';
 const router = express.Router();
 const User = require('../models/User');
-import Validators from '../controllers/validations';
+import Validators from '../helpers/validators';
+import bcrypt from 'bcryptjs';
+
 // const registerValidator = require('../controllers/validations');
 // const loginValidation = require('../controllers/validations');
 // import registerValidation from '../controllers/validations';
@@ -15,11 +17,15 @@ import Validators from '../controllers/validations';
    //Check if user exists
    const usernameExist = await User.findOne({ Username: req.body.Username });
    if (usernameExist) return res.status(400).send('Username already exists');
+
+   //Password Hash
+   const salt = await bcrypt.genSalt(10);
+   const hashedPass = await bcrypt.hash(req.body.Password, salt);
    // Create User
      const user = new User({
          Username: req.body.Username,
          // Email: req.body.Email,
-         Password: req.body.Password,
+         Password: hashedPass,
          // Photo: req.body.Photo,
          // Rithm: req.body.Rithm
      });

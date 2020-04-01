@@ -26,9 +26,3 @@ module Validators {
 
 }
 export default Validators;
-// export default registerValidator;
-// export default loginValidator;
-
-
-// module.exports.registerValidation = registerValidator;
-// module.exports.loginValidation = loginValidator;
