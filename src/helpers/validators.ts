@@ -7,6 +7,9 @@ module Validators {
         const schema = Joi.object({
             Username: Joi.string()
                 .min(6).required(),
+            Email: Joi.string()
+                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+                .required(),
             Password: Joi.string()
                 .min(6).required()
         });

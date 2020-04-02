@@ -10,12 +10,12 @@ const UserSchema = Schema({
         max: 255, 
         min: 6
     },
-    // Email: {
-    //     type: String,
-    //     required: true,
-    //     max: 255, 
-    //     min: 6
-    // },
+    Email: {
+        type: String,
+        required: true,
+        max: 255, 
+        min: 6
+    },
     Password: {
         type: String,
         required: true,

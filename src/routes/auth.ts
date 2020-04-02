@@ -12,12 +12,13 @@ import jwt from 'jsonwebtoken';
 // Register
  router.post('/register', async (req, res) => {
     // User Validation
-   const { error } = Validators.loginValidator(req.body);
+   const { error } = Validators.registerValidator(req.body);
    if (error) return res.status(400).send(error.details[0].message);
    
    //Check if user exists
    const usernameExist = await User.findOne({ Username: req.body.Username });
-   if (usernameExist) return res.status(400).send('Username already exists');
+   const emailExist = await User.findOne({ Email: req.body.Email });
+   if (usernameExist || emailExist) return res.status(400).send('Username OR Email already exists');
 
    //Password Hash
    const salt = await bcrypt.genSalt(10);
@@ -25,7 +26,7 @@ import jwt from 'jsonwebtoken';
    // Create User
      const user = new User({
          Username: req.body.Username,
-         // Email: req.body.Email,
+         Email: req.body.Email,
          Password: hashedPass,
          // Photo: req.body.Photo,
          // Rithm: req.body.Rithm
