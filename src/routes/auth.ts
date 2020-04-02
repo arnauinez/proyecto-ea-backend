@@ -4,6 +4,7 @@ const User = require('../models/User');
 import Validators from '../helpers/validators';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+const verify = require('../helpers/tokenVerification');
 
 // const registerValidator = require('../controllers/validations');
 // const loginValidation = require('../controllers/validations');
@@ -54,5 +55,6 @@ import jwt from 'jsonwebtoken';
   const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));
   res.header('auth-token', token).send(token);
  });
+
 
 module.exports = router;

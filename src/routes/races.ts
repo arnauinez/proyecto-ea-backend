@@ -1,7 +1,12 @@
 import express from 'express';
+//import { verify } from 'crypto';
 const router = express.Router();
 const Race = require('../models/Race');
 const Place = require('../models/Place');
+const app = require('../app');
+const verify = require('../helpers/tokenVerification');
+
+app
 
 // Get all races
 router.get('/', async (req, res) => {
@@ -14,7 +19,7 @@ router.get('/', async (req, res) => {
 });
 
 //POST RACE
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
     const StartingPoint_temp = new Place ({
         Name: req.body.StartingPoint.Name,
         N: req.body.StartingPoint.N,
@@ -36,6 +41,8 @@ router.post('/', async (req, res) => {
     race.EndPoint = EndPoint_temp;
     try {
         const savedRace = await race.save();
+        //const race2 = {Race: req.body};
+        //const savedRace = await race2.Race.save();
         res.json(savedRace);
         console.log(savedRace);
     }
