@@ -41,8 +41,6 @@ router.post('/', verify, async (req, res) => {
     race.EndPoint = EndPoint_temp;
     try {
         const savedRace = await race.save();
-        //const race2 = {Race: req.body};
-        //const savedRace = await race2.Race.save();
         res.json(savedRace);
         console.log(savedRace);
     }
@@ -62,7 +60,7 @@ router.get('/:postId', async (req, res) => {
 });
 
 //DELETE RACE
-router.delete('/:raceId', async (req, res) => {
+router.delete('/:raceId', verify, async (req, res) => {
     try {
         const removedRace = await Race.remove({_id: req.params.raceId})
         res.json(removedRace);

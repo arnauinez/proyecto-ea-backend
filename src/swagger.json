@@ -8,5 +8,295 @@
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
         }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Local Dev or docker from serveistic"
+        }
+    
+    ],
+    "tags": [
+        {
+            "name": "Backend",
+            "description": "API for backend testing"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login with username and password",
+                "requestBody": {
+                    "description": "User",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "token": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed."
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Register new user",
+                "requestBody": {
+                    "description": "User",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed."
+                    }
+                }
+            }
+        },
+        "/profile/": {
+            "get": {
+                "tags": [
+                    "Get user info"
+                ],
+                "summary": "Get user info",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/profile/nearRaces/{distance}": {
+            "get": {
+                "tags": [
+                    "Get races near user"
+                ],
+                "summary": "Get races at a distance less than specified",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "distance",
+                        "required": true,
+                        "description": "Max distance",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Race"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/races/": {
+            "get": {
+                "tags": [
+                    "Get all races"
+                ],
+                "summary": "Get all races",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Race"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Post new race"],
+                "requestBody": {
+                    "description": "Race",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref":"#/definitions/Race"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Race"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/races/{id}": {
+            "get": {
+                "tags": [
+                    "Get specific race"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Race id",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Race"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Delete race"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Race id",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Race"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Place": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string"
+                },
+                "N": {
+                    "type": "mongoose.Decimal128"
+                },
+                "E": {
+                    "type": "mongoose.Decimal128"
+                }
+            }
+        },
+        "Race": {
+            "type": "object",
+            "properties": {
+                "Title": {
+                    "type": "string"
+                },
+                "Author": {
+                    "type": "string"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Datetime": {
+                    "type": "string"
+                },
+                "StartingPoint": {
+                    "$ref": "#/definitions/Place"
+                },
+                "EndPoint": {
+                    "$ref": "#/definitions/Place"
+                },
+                "Route": {
+                    "type": "string"
+                },
+                "Distance": {
+                    "type": "mongoose.Decimal128"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "Username":"string",
+                "Password": "string",
+                "Email": "string",
+                "History": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Race"
+                    }
+                }
+            }
+        }
     }
 }

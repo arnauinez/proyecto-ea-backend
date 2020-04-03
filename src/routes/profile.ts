@@ -17,7 +17,7 @@ router.get('/', verify, async (req: any, res: any) => {
         res.json({message: err});
     }
  });
- //solo para ver los places guardados
+ //para ver los places guardados, solo para pruebas
  router.get('/places', verify, async (req: any, res: any) => {
     try{
         const places = await Place.find();
@@ -39,10 +39,13 @@ router.get('/', verify, async (req: any, res: any) => {
         races.forEach(async function (race: any) {
             if(race.StartingPoint != null){
                 const sp = await Place.findById(race.StartingPoint);
-                if(true){
+                if(sp != null){
                     console.log(sp);
                     const sp2: GeolibInputCoordinates = {lat: sp.N, lng: sp.E};
                     console.log(getDistance(place, sp2));
+                }
+                else{
+                    console.log("null");
                 }
             }
         });
