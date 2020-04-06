@@ -31,7 +31,8 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Connect to DB
 mongoose.connect( 
     //'mongodb+srv://runnea.tk:27017/test0',
-    'mongodb+srv://dbuser:dbpass@cluster0-8hrhz.mongodb.net/test?retryWrites=true&w=majority',
+    //'mongodb+srv://dbuser:dbpass@cluster0-8hrhz.mongodb.net/test?retryWrites=true&w=majority',
+    String(process.env.DB_CONNECTION),
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => { console.log('Connected to DB!')}
 );
