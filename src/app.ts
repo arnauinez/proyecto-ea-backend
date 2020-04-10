@@ -9,9 +9,7 @@ const app: express.Application = express();
 //Import Routes
 const raceRoute = require('./routes/races');
 const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
 const profileRoute = require('./routes/profile');
-
 
 const PORT = 3700;
 
@@ -20,7 +18,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/races', raceRoute);
 app.use('/auth', authRoute);
-app.use('/posts', postRoute);
 app.use('/profile', profileRoute);
 
 

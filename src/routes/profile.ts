@@ -1,22 +1,22 @@
 import express from 'express';
-import getDistance from 'geolib/es/getDistance';
-import { GeolibInputCoordinates } from 'geolib/es/types';
 const router = express.Router();
-const verify = require('../helpers/tokenVerification');
 const User = require('../models/User');
+import { GeolibInputCoordinates } from 'geolib/es/types';
 const Race = require('../models/Race');
 const Place = require('../models/Place');
-//const geolib = require('geolib');
+import getDistance from 'geolib/es/getDistance';
+const verify = require('../helpers/tokenVerification');
 
-router.get('/', verify, async (req: any, res: any) => {
-    try{
-        const user = await User.findById(req.user.id);
-        user.Password = null;
-        res.json(user);
+router.get('/',verify,(req: any, res: any)=>{
+    try {
+        User.findById(req.user.id, '-Password', function (err: any, user: any) {
+            res.send(user);
+        });
     }catch(err) {
         res.json({message: err});
     }
- });
+});
+
  //para ver los places guardados, solo para pruebas
  router.get('/places', verify, async (req: any, res: any) => {
     try{

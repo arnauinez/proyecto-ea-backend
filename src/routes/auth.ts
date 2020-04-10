@@ -41,19 +41,19 @@ const verify = require('../helpers/tokenVerification');
  });
 
  router.post('/login', async (req, res) => {
-  // User Validation
-  const { error } = Validators.loginValidator(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-   
-  //Check if user exists
-  const user = await User.findOne({ Username: req.body.Username });
-  if (!user) return res.status(400).send('Username or password is wrong');
-
-  const validPass = await bcrypt.compare(req.body.Password, user.Password);
-  if (!validPass) return res.status(400).send('Invalid password');
-  
-  const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));
-  res.header('auth-token', token).send(token);
+    // User Validation
+    const { error } = Validators.loginValidator(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    
+    //Check if user exists
+    const user = await User.findOne({ Username: req.body.Username });
+    if (!user) return res.status(400).send(`${req.body.Username} Does not exists`);
+    //Check correct password   
+    const validPass = await bcrypt.compare(req.body.Password, user.Password);
+    if (!validPass) return res.status(400).send('Invalid password');
+    
+    const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));
+    res.header('auth-token', token).send({ 'auth-token': token });
  });
 
 
