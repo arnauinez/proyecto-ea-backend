@@ -6,10 +6,12 @@ const Place = require('../models/Place');
 const app = require('../app');
 const verify = require('../helpers/tokenVerification');
 
+let placesControl = require ("../controllers/placeControl");
+
 app
 
 // Get all races
-router.get('/', async (req, res) => {
+router.get('/races', async (req, res) => {
     try{
         const races = await Race.find(); // mongoose method
         res.json(races);
@@ -17,6 +19,10 @@ router.get('/', async (req, res) => {
         res.json({race: err});
     }
 });
+
+// Get all places
+router.get('/', placesControl.getPlaces);
+
 
 //POST RACE
 router.post('/', verify, async (req, res) => {
