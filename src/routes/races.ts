@@ -21,7 +21,15 @@ router.get('/races', async (req, res) => {
 });
 
 // Get all places
-router.get('/', placesControl.getPlaces);
+//router.get('/', placesControl.getPlaces);
+router.get('/places', async (req, res) => {
+    try{
+        const places = await Place.find(); // mongoose method
+        res.json(places);
+    } catch (err) {
+        res.json({place: err});
+    }
+});
 
 
 //POST RACE
