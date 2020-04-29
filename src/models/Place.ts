@@ -10,11 +10,11 @@ const PlaceSchema = mongoose.Schema({
         required: true
     },
     N: {
-        type: mongoose.Decimal128,
+        type: mongoose.Types.Decimal128,
         required: true
     },
     E: {
-        type: mongoose.Decimal128,
+        type: mongoose.Types.Decimal128,
         required: true
     }
 });

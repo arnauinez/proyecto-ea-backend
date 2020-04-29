@@ -24,11 +24,13 @@ router.get('/races', async (req, res) => {
 //router.get('/', placesControl.getPlaces);
 router.get('/places', async (req, res) => {
     try{
-        const places = await Place.find(); // mongoose method
+        const places = await Place.find();// mongoose method   
         res.json(places);
+        console.log(places);
     } catch (err) {
         res.json({place: err});
     }
+    
 });
 
 
