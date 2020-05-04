@@ -3,6 +3,7 @@ import express from 'express';
 const router = express.Router();
 const Race = require('../models/Race');
 const Place = require('../models/Place');
+const Place2 = require ('../models/Place2');
 const app = require('../app');
 const verify = require('../helpers/tokenVerification');
 
@@ -24,13 +25,46 @@ router.get('/races', async (req, res) => {
 //router.get('/', placesControl.getPlaces);
 router.get('/places', async (req, res) => {
     try{
-        const places = await Place.find();// mongoose method   
+        const places = await Place2.find();// mongoose method   
         res.json(places);
         console.log(places);
     } catch (err) {
         res.json({place: err});
     }
     
+});
+
+router.get('/places2', async (req, res) => {
+    try{
+        const places2 = await Place2.find();// mongoose method   
+        res.json(places2);
+        console.log(places2);
+    } catch (err) {
+        res.json({place2: err});
+    }
+    
+});
+
+router.get('/places2/nearest', async (req, res) => {
+    try{
+        let distance = req.body;
+        console.log(distance);
+        let query =  {
+            location:
+              { $near:
+                 {
+                   $geometry: { type: "Point",  coordinates: [ -73.9667, 40.78 ] },
+                   $minDistance: 0,
+                   $maxDistance: distance
+                 }
+              }
+          }
+        const places2 = await Place2.find(query);// mongoose method   
+        res.json(places2);
+        console.log(places2);
+    } catch (err) {
+        res.json({place2: err});
+    }    
 });
 
 
