@@ -25,7 +25,7 @@ router.get('/races', async (req, res) => {
 //router.get('/', placesControl.getPlaces);
 router.get('/places', async (req, res) => {
     try{
-        const places = await Place2.find();// mongoose method   
+        const places = await Place.find();// mongoose method   
         res.json(places);
         console.log(places);
     } catch (err) {
@@ -34,36 +34,27 @@ router.get('/places', async (req, res) => {
     
 });
 
-router.get('/places2', async (req, res) => {
-    try{
-        const places2 = await Place2.find();// mongoose method   
-        res.json(places2);
-        console.log(places2);
-    } catch (err) {
-        res.json({place2: err});
-    }
-    
-});
 
-router.get('/places2/nearest', async (req, res) => {
+
+router.get('/places/nearest/:distance', async (req, res) => {
     try{
-        let distance = req.body;
-        console.log(distance);
+        let distance = req.params.distance;
+        console.log(req.params.distance);
         let query =  {
             location:
               { $near:
                  {
-                   $geometry: { type: "Point",  coordinates: [ -73.9667, 40.78 ] },
-                   $minDistance: 0,
+                   $geometry: { type: "Point",  coordinates: [ 1.98694444, 41.27555556 ] },
+                   $minDistance: 100,
                    $maxDistance: distance
                  }
               }
           }
-        const places2 = await Place2.find(query);// mongoose method   
-        res.json(places2);
-        console.log(places2);
+        const places = await Place.find(query);// mongoose method   
+        res.json(places);
+        console.log(places);
     } catch (err) {
-        res.json({place2: err});
+        res.json({place: err});
     }    
 });
 
