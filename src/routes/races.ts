@@ -36,15 +36,17 @@ router.get('/places', async (req, res) => {
 
 
 
-router.get('/places/nearest/:distance', async (req, res) => {
+router.get('/places/nearest/:distance/:latitude/:longitude', async (req, res) => {
     try{
         let distance = req.params.distance;
+        let lat = req.params.latitude;
+        let long = req.params.longitude;
         console.log(req.params.distance);
         let query =  {
             location:
               { $near:
                  {
-                   $geometry: { type: "Point",  coordinates: [ 1.98694444, 41.27555556 ] },
+                   $geometry: { type: "Point",  coordinates: [ long, lat ] },
                    $minDistance: 100,
                    $maxDistance: distance
                  }
