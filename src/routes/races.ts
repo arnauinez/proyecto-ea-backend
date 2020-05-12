@@ -35,7 +35,7 @@ router.get('/places', async (req, res) => {
 });
 
 
-
+//GET PLACES BY DISTANCE
 router.get('/places/nearest/:distance/:latitude/:longitude', async (req, res) => {
     try{
         let distance = req.params.distance;
@@ -57,6 +57,32 @@ router.get('/places/nearest/:distance/:latitude/:longitude', async (req, res) =>
         console.log(places);
     } catch (err) {
         res.json({place: err});
+    }    
+});
+
+
+//GET RACES BY DISTANCE
+router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => {
+    try{
+        let distance = req.params.distance;
+        let lat = req.params.latitude;
+        let lng = req.params.longitude;
+        console.log(req.params.distance);
+        let query =  {
+            startingPoint:
+              { $near:
+                 {
+                   $geometry: { type: "Point",  coordinates: [ lng, lat ] },
+                   $minDistance: 100,
+                   $maxDistance: distance
+                 }
+              }
+          }
+        const races = await Race.find(query);// mongoose method   
+        res.json(races);
+        console.log(races);
+    } catch (err) {
+        res.json({race: err});
     }    
 });
 

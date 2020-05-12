@@ -3,36 +3,45 @@ var mongoose = require('mongoose');
 //Schema
 
 const RaceSchema = mongoose.Schema({
-    Title: {
+    title: {
         type: String,
         required: true,
     },
-    Author: {
+    author: {
         type: String,
         required: true,
         max: 25, 
         min: 3
     },
-    Description: {
+    description: {
         type: String,
         required: true,
     },
-    Datetime: {
+    date: {
         type: Date,
         default: Date.now
     },
-    StartingPoint: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Place"
+    startingPoint: { 
+        //type: mongoose.Schema.Types.ObjectId,
+        //ref: "Place"
+        type:  {
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
+            required: true
+        }, 
+        coordinates: {
+            type: [Number],
+            required: true
+        } 
     },
-    EndPoint: { 
+    /*EndPoint: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Place"
     },
     Route: {
         type: String,
-    },
-    Distance: {
+    },*/
+    distance: {
         type: mongoose.Decimal128
     },
 });
