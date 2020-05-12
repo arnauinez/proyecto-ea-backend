@@ -10,6 +10,7 @@ const app: express.Application = express();
 const raceRoute = require('./routes/races');
 const authRoute = require('./routes/auth');
 const profileRoute = require('./routes/profile');
+const oauthRoute = require('./routes/oauth');
 
 const PORT = 3700;
 
@@ -19,6 +20,8 @@ app.use(bodyParser.json());
 app.use('/races', raceRoute);
 app.use('/auth', authRoute);
 app.use('/profile', profileRoute);
+app.use('/oauth', oauthRoute);
+
 
 
 app.get('/', (req, res) => {
