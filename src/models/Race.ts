@@ -44,6 +44,10 @@ const RaceSchema = mongoose.Schema({
     distance: {
         type: mongoose.Decimal128
     },
+    subscribers: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+    }]
 });
 
 module.exports = mongoose.model('Races', RaceSchema);

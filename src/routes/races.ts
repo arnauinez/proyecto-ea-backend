@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 const Race = require('../models/Race');
 const Place = require('../models/Place');
-const Place2 = require ('../models/Place2');
+//const Place2 = require ('../models/Place2');
 const app = require('../app');
 const verify = require('../helpers/tokenVerification');
 
@@ -133,6 +133,35 @@ router.delete('/:raceId', verify, async (req, res) => {
     try {
         const removedRace = await Race.remove({_id: req.params.raceId})
         res.json(removedRace);
+    } catch(err) {
+        res.json({race: err});
+    }
+});
+
+//SUBSCRIBE
+router.post('/subscribe/:raceId', verify, async (req, res) => {
+    try {
+        const race = await Race.findById(req.params.raceId);
+        race.subscribers.push(verify.req.user);
+        res.json(race);
+    } catch(err) {
+        res.json({race: err});
+    }
+});
+
+//UNSUBSCRIBE
+router.post('/unsubscribe/:raceId', verify, async (req, res) => {
+    try {
+        const race = await Race.findById(req.params.raceId);
+        const index = race.subscribers.IndexOf(verify.req.user, 0);
+        if(index > -1){
+            race.subscribers.splice(index);
+            race.save();
+            res.json(race);
+        }
+        else{
+            res.status(400).send('user not subscribed to that race');
+        }
     } catch(err) {
         res.json({race: err});
     }
