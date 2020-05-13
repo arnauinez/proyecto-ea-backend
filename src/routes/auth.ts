@@ -17,20 +17,20 @@ const verify = require('../helpers/tokenVerification');
    if (error) return res.status(400).send(error.details[0].message);
    
    //Check if user exists
-   const usernameExist = await User.findOne({ Username: req.body.Username });
-   const emailExist = await User.findOne({ Email: req.body.Email });
+   const usernameExist = await User.findOne({ username: req.body.username });
+   const emailExist = await User.findOne({ email: req.body.email });
    if (usernameExist || emailExist) return res.status(400).send('Username OR Email already exists');
 
    //Password Hash
    const salt = await bcrypt.genSalt(10);
-   const hashedPass = await bcrypt.hash(req.body.Password, salt);
+   const hashedPass = await bcrypt.hash(req.body.password, salt);
    // Create User
      const user = new User({
-         Username: req.body.Username,
-         Email: req.body.Email,
-         Password: hashedPass,
-         // Photo: req.body.Photo,
-         // Rithm: req.body.Rithm
+         username: req.body.username,
+         email: req.body.email,
+         password: hashedPass,
+         // photo: req.body.photo,
+         // rithm: req.body.rithm
      });
     try {
         const savedUser = await user.save();
@@ -46,10 +46,10 @@ const verify = require('../helpers/tokenVerification');
     if (error) return res.status(400).send(error.details[0].message);
     
     //Check if user exists
-    const user = await User.findOne({ Username: req.body.Username });
-    if (!user) return res.status(400).send(`${req.body.Username} Does not exists`);
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) return res.status(400).send(`${req.body.username} Does not exists`);
     //Check correct password   
-    const validPass = await bcrypt.compare(req.body.Password, user.Password);
+    const validPass = await bcrypt.compare(req.body.password, user.password);
     if (!validPass) return res.status(400).send('Invalid password');
     
     const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));

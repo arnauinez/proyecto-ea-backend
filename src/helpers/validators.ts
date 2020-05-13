@@ -5,12 +5,12 @@ module Validators {
     export const registerValidator = (data: any) => {
         console.log(data);
         const schema = Joi.object({
-            Username: Joi.string()
+            username: Joi.string()
                 .min(6).required(),
-            Email: Joi.string()
-                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+            email: Joi.string()
+                .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'cat', 'es'] } })
                 .required(),
-            Password: Joi.string()
+            password: Joi.string()
                 .min(6).required()
         });
         return schema.validate(data); 
@@ -19,9 +19,9 @@ module Validators {
     // Login
     export const loginValidator = (data: any) => {
         const schema = Joi.object({
-            Username: Joi.string()
+            username: Joi.string()
             .min(6).required(),
-            Password: Joi.string()
+            password: Joi.string()
             .min(6).required()
         });
         return schema.validate(data);

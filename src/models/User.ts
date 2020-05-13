@@ -4,32 +4,32 @@ const Schema = mongoose.Schema;
 //Schema
 
 const UserSchema = Schema({
-    Username: {
+    username: {
         type: String,
         required: true, 
         max: 255, 
         min: 6
     },
-    Email: {
+    email: {
         type: String,
         // required: true,
         max: 255, 
         min: 6
     },
-    Password: {
+    password: {
         type: String,
         // required: true,
         max: 1024, 
         min: 6
     },
-    Photo: {
+    photo: {
         type: String,
     },
-    Rithm: {
+    rithm: {
         type: mongoose.Decimal128,
         // required: true
     },
-    History: [{ 
+    history: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: "Race"
     }]
