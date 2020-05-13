@@ -7,10 +7,11 @@ module.exports = (req: any, res: any, next: any) => {
 
     try {
         const verifiedUser = jwt.verify(token, String(process.env.TOKEN_SECRET));
-        req.user = verifiedUser;
-        console.log(verifiedUser);
+        console.log(Object(verifiedUser));//es un objeto raro tipo { id: '5e97686b5044170019f48615', iat: 1589392974 }
+        req.params.userid = Object(verifiedUser).id;
         next();
     } catch (err) {
+        console.log(err);
         res.status(400).send('Invalid Token');
     }
 }

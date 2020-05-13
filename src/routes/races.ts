@@ -3,10 +3,11 @@ import express from 'express';
 const router = express.Router();
 const Race = require('../models/Race');
 const Place = require('../models/Place');
+const User = require('../models/User');
 //const Place2 = require ('../models/Place2');
 const app = require('../app');
 const verify = require('../helpers/tokenVerification');
-
+const RacesHelper = require('../helpers/Races');
 let placesControl = require ("../controllers/placeControl");
 
 app
@@ -141,9 +142,16 @@ router.delete('/:raceId', verify, async (req, res) => {
 //SUBSCRIBE
 router.post('/subscribe/:raceId', verify, async (req, res) => {
     try {
-        const race = await Race.findById(req.params.raceId);
-        race.subscribers.push(verify.req.user);
-        res.json(race);
+        const race = await Race.find({_id: req.params.raceId});
+        console.log(req.params.userid);
+        if(race[0].subscribers.indexOf(req.params.userid) < 0){
+            race[0].subscribers.push(req.params.userid);
+            await Race.where({_id: race[0]._id}).update(race[0]);
+            res.json(race[0]);
+        }
+        else{
+            res.status(409).send("Alredy subscribed");
+        }
     } catch(err) {
         res.json({race: err});
     }
@@ -152,16 +160,38 @@ router.post('/subscribe/:raceId', verify, async (req, res) => {
 //UNSUBSCRIBE
 router.post('/unsubscribe/:raceId', verify, async (req, res) => {
     try {
-        const race = await Race.findById(req.params.raceId);
-        const index = race.subscribers.IndexOf(verify.req.user, 0);
+        const race = await Race.find({_id: req.params.raceId});
+        console.log(race[0].subscribers);
+        const index = race[0].subscribers.indexOf(req.params.userid, 0);
+        console.log(index);
         if(index > -1){
-            race.subscribers.splice(index);
-            race.save();
-            res.json(race);
+            race[0].subscribers.splice(index, 1);
+            await Race.where({_id: race[0]._id}).update(race[0]);
+            res.json(race[0]);
         }
         else{
             res.status(400).send('user not subscribed to that race');
         }
+    } catch(err) {
+        res.json({race: err});
+    }
+});
+
+//GET SUBS
+
+router.get('/getsubs/:raceId', verify, async (req, res) => {
+    try {
+        console.log(req.params.raceId);
+        const race = await Race.find({_id: req.params.raceId});
+        console.log(race);
+        const subs = race[0].subscribers;
+        const subs2 = await User.find({_id: subs});
+        console.log(subs2);
+        subs2.forEach(async (element: any) => {
+            element.password = null;
+        });
+        console.log(subs2);
+        res.json(subs2);
     } catch(err) {
         res.json({race: err});
     }

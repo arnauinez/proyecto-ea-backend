@@ -1,15 +1,17 @@
 const Race = require('../models/Race');
 
 module Races {
-    export const getSubscribed = async (raceid: string) => {
+    //desde aqui no va, el mismo codigo desde /src/routes/races.ts si que va, asi que ahi se queda
+    /*export const getSubscribed = async (raceid: string) => {
         try{
-            let race = await Race.findById(raceid);
+            const race = await Race.findById(raceid);
+            
             console.log(race);
-            return race.subscribed;
+            return race;
 
         }catch(err) {
             console.log({message: err});
         }
-    }
+    }*/
 }
 export default Races;

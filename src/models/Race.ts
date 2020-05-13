@@ -45,8 +45,9 @@ const RaceSchema = mongoose.Schema({
         type: mongoose.Decimal128
     },
     subscribers: [{
-        type: mongoose.Schema.ObjectId,
-        ref: "User"
+        type: String
+        //type: mongoose.Schema.ObjectId,
+        //ref: "User"
     }]
 });
 
