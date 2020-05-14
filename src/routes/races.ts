@@ -90,26 +90,20 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
 
 //POST RACE
 router.post('/', verify, async (req, res) => {
-    const StartingPoint_temp = new Place ({
-        Name: req.body.StartingPoint.Name,
-        N: req.body.StartingPoint.N,
-        E: req.body.StartingPoint.E
-    });
-    const EndPoint_temp = new Place ({
-        Name: req.body.EndPoint.Name,
-        N: req.body.EndPoint.N,
-        E: req.body.EndPoint.E
-    });
     const race = new Race({
-        Title: req.body.Title,
-        Author: req.body.Author,
-        Description: req.body.Description,
-        Route: req.body.Route,
-        Distance: req.body.Distance
+        title: req.body.title,
+        author: req.body.author,
+        date: req.body.date,
+        description: req.body.description,
+        distance: req.body.distance,
+        startingPoint: {
+          coordinates: req.body.coordinates,
+          type: req.body.type
+        }
     });
-    race.StartingPoint = StartingPoint_temp;
-    race.EndPoint = EndPoint_temp;
     try {
+        console.log(req.body);
+        console.log(race);
         const savedRace = await race.save();
         res.json(savedRace);
         console.log(savedRace);
