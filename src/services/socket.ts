@@ -2,6 +2,7 @@ import { Socket, Room, Rooms } from 'socket.io';
 const moment = require('moment');
 exports.socket = (io: SocketIO.Server) => {
 
+
     var rooms = ['default'];
     const usrs: Usr[] = [];
     const getCurrentUsr = (id: string) => {
@@ -48,17 +49,11 @@ exports.socket = (io: SocketIO.Server) => {
                     socket.broadcast.to(user?.room).emit('message', message);
                 });
 
-
-
                 socket.on('disconnect', () => {
                     const user = getCurrentUsr(socket.id);
                     io.emit('notify', `A ${user?.username} disconnected`);
                 });
             });
-
-    // io.on('message', (message: any) => {
-    //     console.log(message);
-    // });
 }
 export interface Usr {
     id: any;    

@@ -54,14 +54,3 @@ server.listen(SOCKETPORT, () => {
 });
 socket.socket(io);
 
-// io.on('connection', (socket: SocketIO.Socket) => {
-//     console.log('APP User connected!');
-// });
-
-// io.on("connection", function(socket: any) {
-//   console.log("");
-//   // whenever we receive a 'message' we log it out
-//   socket.on("message", function(message: any) {
-//     console.log(message);
-//   });
-// });
