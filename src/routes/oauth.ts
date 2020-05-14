@@ -6,14 +6,18 @@ const User = require('../models/User');
 // Strategies
 const FacebookStrategy = require("passport-facebook").Strategy
 
-router.use(passport.initialize())
-router.use(passport.session())
+router.use(passport.initialize());
+// router.use(passport.session())
 
-passport.serializeUser(function(user: any, done: any) {
-  done(null, user)
+passport.serializeUser((user: any, done: any) => {
+  console.log(`Serialized User`);
+  console.log(user);
+  done(null, user);
 })
-passport.deserializeUser(function(user: any, done: any) {
-  done(null, user)
+passport.deserializeUser((user: any, done: any) => {
+  console.log(`Deserialized User`);
+  console.log(user);
+  done(null, user);
 })
 
 const fbOpts = {
@@ -26,7 +30,8 @@ const fbOpts = {
 
 const fbCallback = async (accessToken: any, refreshToken: any, profile: any, req: any, done: any) => {
   try {
-    console.log(profile); // UNDEFINED
+
+    console.log(`Profile -> ${profile}`); // UNDEFINED
     await User.findOne({ Username: req.id },
       async (err: Error, user: any) => {
         if(err) {
@@ -62,7 +67,7 @@ router.get('/facebook/callback',
     successRedirect: '/oauth',
     failureRedirect: '/' })
   // (req: any, res: any) => {
-  //   console.log('req____', req);
+  //   console.log('req', req);
   //   res.send('HELLO')
   // }
 )
