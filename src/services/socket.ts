@@ -2,6 +2,15 @@ import { Socket, Room, Rooms } from 'socket.io';
 const moment = require('moment');
 exports.socket = (io: SocketIO.Server) => {
 
+    // const r: Room = {
+    //     sockets: {},
+    //     length
+    // }
+    // r.sockets['fsdf'] = true;
+    // r.length++;
+
+    // const rr: Rooms = { r };
+
 
     var rooms = ['default'];
     const usrs: Usr[] = [];
@@ -21,6 +30,7 @@ exports.socket = (io: SocketIO.Server) => {
     io
         .of('/races')
             .on('connection', (socket: Socket) => {
+                // Verify
                 socket.emit('notify', 'Welcome to /races namespace');
                 socket.on('joinRoom', (room, user) => {
                     if(rooms.includes(room)) {

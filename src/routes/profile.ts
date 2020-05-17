@@ -8,8 +8,14 @@ import getDistance from 'geolib/es/getDistance';
 const verify = require('../helpers/tokenVerification');
 
 router.get('/',verify,(req: any, res: any)=>{
+    console.log('______________________REQ.USER______________________________');
+    console.log(req.user.id);
+    console.log('_____________________________________________________');
     try {
         User.findById(req.user.id, '-Password', function (err: any, user: any) {
+            console.log('______________________Profile______________________________');
+            console.log(user);
+            console.log('_____________________________________________________');
             res.send(user);
         });
     }catch(err) {
@@ -26,6 +32,7 @@ router.get('/',verify,(req: any, res: any)=>{
         res.json({message: err});
     }
  });
+ 
 //get races a como mucho distance (en metros) a la redonda (aun no funciona)
  router.get('/nearRaces/:distance', verify, async(req: any, res: any) => {
     try{
