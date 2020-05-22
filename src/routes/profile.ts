@@ -1,31 +1,27 @@
 import express from 'express';
 const router = express.Router();
-const User = require('../models/User');
+const UserSchema = require('../models/User');
 import { GeolibInputCoordinates } from 'geolib/es/types';
 const Race = require('../models/Race');
 const Place = require('../models/Place');
 import getDistance from 'geolib/es/getDistance';
 const verify = require('../helpers/tokenVerification');
 
-router.get('/',verify,(req: any, res: any)=>{
+
+//GET USER PROFILE
+router.get('/',verify,(req: any, res: any)=>{    
     try {
-        User.findById(req.user.id, '-Password', function (err: any, user: any) {
+        UserSchema.findById(req.user.id, '-Password', function (err: any, user: any) {
             res.send(user);
+            console.log(user);
         });
     }catch(err) {
         res.json({message: err});
-    }
+        console.log(err);
+    }    
 });
 
- //para ver los places guardados, solo para pruebas
- router.get('/places', verify, async (req: any, res: any) => {
-    try{
-        const places = await Place.find();
-        res.json(places);
-    }catch(err) {
-        res.json({message: err});
-    }
- });
+
 //get races a como mucho distance (en metros) a la redonda (aun no funciona)
  router.get('/nearRaces/:distance', verify, async(req: any, res: any) => {
     try{

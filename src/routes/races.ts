@@ -58,6 +58,7 @@ router.get('/places/nearest/:distance/:latitude/:longitude', async (req, res) =>
         console.log(places);
     } catch (err) {
         res.json({place: err});
+        console.log(err);
     }    
 });
 
@@ -69,6 +70,8 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
         let lat = req.params.latitude;
         let lng = req.params.longitude;
         console.log(req.params.distance);
+        console.log(req.params.latitude);
+        console.log(req.params.longitude);
         let query =  {
             startingPoint:
               { $near:
@@ -84,6 +87,7 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
         console.log(races);
     } catch (err) {
         res.json({race: err});
+        console.log(err);
     }    
 });
 
