@@ -4,7 +4,6 @@ const router = express.Router();
 const Race = require('../models/Race');
 const Place = require('../models/Place');
 const User = require('../models/User');
-//const Place2 = require ('../models/Place2');
 const app = require('../app');
 const verify = require('../helpers/tokenVerification');
 const RacesHelper = require('../helpers/Races');
