@@ -89,26 +89,24 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
 
 
 //POST RACE
-router.post('/', verify, async (req, res) => {
-    const race = new Race({
+router.post('/', async (req, res) => {
+    let race = new Race({
         title: req.body.title,
         author: req.body.author,
         date: req.body.date,
         description: req.body.description,
-        distance: req.body.distance,
-        startingPoint: {
-          coordinates: req.body.coordinates,
-          type: req.body.type
-        }
+        distance: req.body.distance
     });
     try {
-        console.log(req.body);
-        console.log(race);
+        race.startingPoint.coordinates[0] = req.body.startingPoint.coordinates[0];
+        race.startingPoint.coordinates[1] = req.body.startingPoint.coordinates[1];
+        race.startingPoint.type = "Point";
         const savedRace = await race.save();
-        res.json(savedRace);
         console.log(savedRace);
+        res.json(savedRace);
     }
     catch(err) {
+        console.log(err);
         res.json({race: err});
     }
 });
