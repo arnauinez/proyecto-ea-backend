@@ -8,14 +8,8 @@ import getDistance from 'geolib/es/getDistance';
 const verify = require('../helpers/tokenVerification');
 
 router.get('/',verify,(req: any, res: any)=>{
-    console.log('______________________REQ.USER______________________________');
-    console.log(req.user.id);
-    console.log('_____________________________________________________');
     try {
         User.findById(req.user.id, '-Password', function (err: any, user: any) {
-            console.log('______________________Profile______________________________');
-            console.log(user);
-            console.log('_____________________________________________________');
             res.send(user);
         });
     }catch(err) {

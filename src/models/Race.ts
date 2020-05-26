@@ -45,10 +45,13 @@ const RaceSchema = mongoose.Schema({
         type: mongoose.Decimal128
     },
     subscribers: [{
+        // type: String
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+    }],
+    socketRoom: {
         type: String
-        //type: mongoose.Schema.ObjectId,
-        //ref: "User"
-    }]
+    }
 });
 
 module.exports = mongoose.model('Races', RaceSchema);

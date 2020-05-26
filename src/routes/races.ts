@@ -87,6 +87,21 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
     }    
 });
 
+router.post('/subscribe', verify, async (req, res) => {
+    const raceExist = await Race.findOne({ _id: req.body.raceId });
+    const userSubscribed = await Race.findOne({ 'subscribers._id': req.body.userId });
+    if (!raceExist || userSubscribed) return res.status(400).send('Race not found or User already subscribed');
+    else {
+        try {
+            const user = await User.findOne({ _id: req.body.userId });
+            Race.subscribed.push(user);
+            await Race.save();
+            res.send({ _id: user._id });
+        } catch(err) {
+            res.status(400).send('Race cannot be saved');
+        }
+    }
+});
 
 //POST RACE
 router.post('/', verify, async (req, res) => {
