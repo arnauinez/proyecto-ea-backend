@@ -22,9 +22,7 @@ const RaceSchema = mongoose.Schema({
         default: Date.now
     },
     startingPoint: { 
-        //type: mongoose.Schema.Types.ObjectId,
-        //ref: "Place"
-        type:  {
+            type:  {
             type: String, // Don't do `{ location: { type: String } }`
             enum: ['Point'], // 'location.type' must be 'Point'
             required: true

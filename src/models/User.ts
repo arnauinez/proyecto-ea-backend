@@ -25,7 +25,7 @@ const UserSchema = Schema({
     photo: {
         type: String,
     },
-    rithm: {
+    rythm: {
         type: mongoose.Decimal128,
         // required: true
     },
