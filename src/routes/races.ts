@@ -92,32 +92,24 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
 
 
 //POST RACE
-router.post('/', verify, async (req, res) => {
-    const StartingPoint_temp = new Place ({
-        Name: req.body.StartingPoint.Name,
-        N: req.body.StartingPoint.N,
-        E: req.body.StartingPoint.E
+router.post('/', async (req, res) => {
+    let race = new Race({
+        title: req.body.title,
+        author: req.body.author,
+        date: req.body.date,
+        description: req.body.description,
+        distance: req.body.distance
     });
-    const EndPoint_temp = new Place ({
-        Name: req.body.EndPoint.Name,
-        N: req.body.EndPoint.N,
-        E: req.body.EndPoint.E
-    });
-    const race = new Race({
-        Title: req.body.Title,
-        Author: req.body.Author,
-        Description: req.body.Description,
-        Route: req.body.Route,
-        Distance: req.body.Distance
-    });
-    race.StartingPoint = StartingPoint_temp;
-    race.EndPoint = EndPoint_temp;
     try {
+        race.startingPoint.coordinates[0] = req.body.startingPoint.coordinates[0];
+        race.startingPoint.coordinates[1] = req.body.startingPoint.coordinates[1];
+        race.startingPoint.type = "Point";
         const savedRace = await race.save();
-        res.json(savedRace);
         console.log(savedRace);
+        res.json(savedRace);
     }
     catch(err) {
+        console.log(err);
         res.json({race: err});
     }
 });
