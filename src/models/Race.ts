@@ -45,10 +45,13 @@ const RaceSchema = mongoose.Schema({
         type: Number
     },
     subscribers: [{
+        // type: String
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+    }],
+    socketRoom: {
         type: String
-        //type: mongoose.Schema.ObjectId,
-        //ref: "User"
-    }]
+    }
 });
 
 module.exports = mongoose.model('Races', RaceSchema);
