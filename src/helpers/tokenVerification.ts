@@ -3,7 +3,10 @@ import { NextFunction } from 'express';
 
 module.exports = (req: any, res: any, next: any) => {
     const token = req.header('auth-token');
-    if (!token) return res.status(401).send('Access Denied');
+    if (!token){ 
+        console.log("No hay token");
+        return res.status(401).send('Access Denied');
+    }
 
     try {
         const verifiedUser = jwt.verify(token, String(process.env.TOKEN_SECRET));
@@ -13,7 +16,9 @@ module.exports = (req: any, res: any, next: any) => {
         // req.params.userid = Object(verifiedUser).id;
         next();
     } catch (err) {
-        console.log(err);
+        
+        console.log("token ko", err);
+
         res.status(400).send('Invalid Token');
     }
 }

@@ -1,5 +1,27 @@
-import { Socket, Room, Rooms } from 'socket.io';
-const SocketTools = require('../helpers/SocketTools');
+import { Socket } from 'socket.io';
+import { SocketUser } from '../models/ISocketUser';
+const moment = require('moment');
+// const SocketTools = require('../helpers/SocketTools');
+
+var rooms = ['default'];
+const users: SocketUser[] = [];
+
+const getCurrentUser = (id: string) => {
+    return users.find(usr => usr.id == id);
+}
+
+const userJoin = (id: any, username: string, room: any) => {
+    const usr: SocketUser = {id, username, room};
+    users.push(usr);
+    return usr;
+}
+
+const formater = (user: any, msg: any) => {
+    return `${moment().format('hh:mm')} ${user}: ${msg}`;
+}
+
+
+
 exports.socket = (io: SocketIO.Server) => {
     io
         .of('/races')
@@ -7,9 +29,9 @@ exports.socket = (io: SocketIO.Server) => {
                 // Verify
                 socket.emit('notify', 'Welcome to /races namespace');
                 socket.on('joinRoom', (room, user) => {
-                    if(SocketTools.rooms.includes(room)) {
+                    if(rooms.includes(room)) {
                         socket.join(room);
-                        SocketTools.userJoin(socket.id, user, room);
+                        userJoin(socket.id, user, room);
                         socket.emit('notify', `Joined Room: ${room}`);
                         io
                             .of('/races')
@@ -21,21 +43,21 @@ exports.socket = (io: SocketIO.Server) => {
                 });
                 
                 socket.on('leaveRoom', (room) => {
-                    const user = SocketTools.getCurrentUsr(socket.id);
+                    const user = getCurrentUser(socket.id);
                     socket.leave(room);
                     io.emit('notify', `A ${user?.username} disconnected`);
                 });
 
                 socket.on('chatMessage', (msg) => {
-                    const user = SocketTools.getCurrentUsr(socket.id);
-                    const message = SocketTools.formater(user?.username, msg);
+                    const user = getCurrentUser(socket.id);
+                    const message = formater(user?.username, msg);
                     console.log(`${user?.room} ${message}`);
                     // io.to(user?.room).emit('message', message);
                     socket.broadcast.to(user?.room).emit('message', message);
                 });
 
                 socket.on('disconnect', () => {
-                    const user = SocketTools.getCurrentUsr(socket.id);
+                    const user = getCurrentUser(socket.id);
                     io.emit('notify', `A ${user?.username} disconnected`);
                 });
             });

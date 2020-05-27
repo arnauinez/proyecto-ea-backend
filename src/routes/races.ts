@@ -160,6 +160,7 @@ router.post('/subscribe/:raceId', verify, async (req, res) => {
             res.status(409).send("Alredy subscribed");
         }
     } catch(err) {
+        console.log(err);
         res.json({race: err});
     }
 });
@@ -180,6 +181,7 @@ router.post('/unsubscribe/:raceId', verify, async (req, res) => {
             res.status(400).send('user not subscribed to that race');
         }
     } catch(err) {
+        console.log(err);
         res.json({race: err});
     }
 });

@@ -9,10 +9,12 @@ const verify = require('../helpers/tokenVerification');
 
 router.get('/',verify,(req: any, res: any)=>{
     try {
-        User.findById(req.user.id, '-Password', function (err: any, user: any) {
+        User.findById(req.params.userid, '-password', function (err: any, user: any) {
+            user.password = null;//para asegurar
             res.send(user);
         });
     }catch(err) {
+        console.log(err);
         res.json({message: err});
     }
 });
