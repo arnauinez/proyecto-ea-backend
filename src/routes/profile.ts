@@ -28,6 +28,7 @@ router.get('/',verify,(req: any, res: any)=>{
         res.json({message: err});
     }
  });
+ 
 //get races a como mucho distance (en metros) a la redonda (aun no funciona)
  router.get('/nearRaces/:distance', verify, async(req: any, res: any) => {
     try{

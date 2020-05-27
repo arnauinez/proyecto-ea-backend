@@ -24,6 +24,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/geojson": "^7946.0.7",
     "@types/hapi__joi": "^16.0.12",
+    "@types/socket.io": "^2.1.4",
     "@types/swagger-ui-express": "^4.1.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -31,9 +32,11 @@
     "express": "^4.17.1",
     "geolib": "^3.2.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.25.3",
     "mongoose": "^5.9.3",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
+    "socket.io": "^2.3.0",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
@@ -42,6 +45,8 @@
     "@types/jsonwebtoken": "^8.3.8",
     "@types/mongoose": "^5.7.3",
     "@types/node": "^13.7.7",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "nodemon": "^2.0.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
