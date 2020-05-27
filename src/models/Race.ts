@@ -42,7 +42,7 @@ const RaceSchema = mongoose.Schema({
         type: String,
     },*/
     distance: {
-        type: mongoose.Decimal128
+        type: Number
     },
     subscribers: [{
         type: String
