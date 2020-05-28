@@ -13,7 +13,7 @@ module.exports = (req: any, res: any, next: any) => {
         // console.log(Object(verifiedUser));//es un objeto raro tipo { id: '5e97686b5044170019f48615', iat: 1589392974 }
         req.user = verifiedUser;
         console.log('VERIFIED USER ', verifiedUser);
-        // req.params.userid = Object(verifiedUser).id;
+        req.params.userid = Object(verifiedUser).id;
         next();
     } catch (err) {
         

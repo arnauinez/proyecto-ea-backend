@@ -86,7 +86,7 @@ router.get('/races/nearest/:distance/:latitude/:longitude', async (req, res) => 
         res.json({race: err});
     }    
 });
-
+/*
 router.post('/subscribe', verify, async (req, res) => {
     const raceExist = await Race.findOne({ _id: req.body.raceId });
     const userSubscribed = await Race.findOne({ 'subscribers._id': req.body.userId });
@@ -102,7 +102,7 @@ router.post('/subscribe', verify, async (req, res) => {
         }
     }
 });
-
+*/
 //POST RACE
 router.post('/', async (req, res) => {
     let race = new Race({

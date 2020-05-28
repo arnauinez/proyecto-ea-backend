@@ -45,9 +45,9 @@ const RaceSchema = mongoose.Schema({
         type: Number
     },
     subscribers: [{
-        // type: String
-        type: mongoose.Schema.ObjectId,
-        ref: "User"
+        type: String
+        //type: mongoose.Schema.ObjectId,
+        //ref: "User"
     }],
     socketRoom: {
         type: String

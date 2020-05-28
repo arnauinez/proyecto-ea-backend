@@ -10,7 +10,7 @@ const verify = require('../helpers/tokenVerification');
 router.get('/',verify,(req: any, res: any)=>{
     try {
         User.findById(req.params.userid, '-password', function (err: any, user: any) {
-            user.password = null;//para asegurar
+            //user.password = null;//para asegurar
             res.send(user);
         });
     }catch(err) {
