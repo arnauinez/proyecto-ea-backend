@@ -48,7 +48,10 @@ const RaceSchema = mongoose.Schema({
         type: String
         //type: mongoose.Schema.ObjectId,
         //ref: "User"
-    }]
+    }],
+    socketRoom: {
+        type: String
+    }
 });
 
 module.exports = mongoose.model('Races', RaceSchema);
