@@ -7,12 +7,15 @@ const Place = require('../models/Place');
 import getDistance from 'geolib/es/getDistance';
 const verify = require('../helpers/tokenVerification');
 
-router.get('/',verify,(req: any, res: any)=>{
+router.get('/',verify, async (req: any, res: any)=>{
     try {
-        User.findById(req.params.userid, '-password', function (err: any, user: any) {
+        const user = await User.findById(req.params.userid, '-password')//, function (err: any, user: any) {
             //user.password = null;//para asegurar
-            res.send(user);
-        });
+        await user.populate('history').execPopulate();
+        //await user.history[].populate('subscribers').execPopulate();
+        console.log(user);
+        res.send(user);
+        
     }catch(err) {
         console.log(err);
         res.json({message: err});
@@ -28,7 +31,19 @@ router.get('/',verify,(req: any, res: any)=>{
         res.json({message: err});
     }
  });
- 
+
+//clear race history
+router.post('/clearhistory', verify, async (req: any, res: any) => {
+    try{
+        const user = await User.find({_id: req.params.userid});
+        user[0].history = [];
+        await User.where({_id: user[0]._id}).update(user[0]);
+        res.json(user[0].history);
+    }catch(err) {
+        res.json({message: err});
+    }
+ });
+
 //get races a como mucho distance (en metros) a la redonda (aun no funciona)
  router.get('/nearRaces/:distance', verify, async(req: any, res: any) => {
     try{

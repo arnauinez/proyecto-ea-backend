@@ -1,4 +1,5 @@
 import express from 'express';
+import Schema from 'mongoose';
 //import { verify } from 'crypto';
 const router = express.Router();
 const Race = require('../models/Race');
@@ -9,6 +10,7 @@ const app = require('../app');
 const verify = require('../helpers/tokenVerification');
 const RacesHelper = require('../helpers/Races');
 let placesControl = require ("../controllers/placeControl");
+var mongoose = require('mongoose');
 
 app
 
@@ -186,7 +188,7 @@ router.post('/unsubscribe/:raceId', verify, async (req, res) => {
     }
 });
 
-//GET SUBS
+//GET USERS SUBSCRIBED TO A RACE
 
 router.get('/getsubs/:raceId', verify, async (req, res) => {
     try {
@@ -202,6 +204,36 @@ router.get('/getsubs/:raceId', verify, async (req, res) => {
         console.log(subs2);
         res.json(subs2);
     } catch(err) {
+        res.json({race: err});
+    }
+});
+
+//GET RACES THIS USER IS SUBSCRIBED TO //BUT NOT THOSE IN HIS HISTORY
+
+router.get('/races/getpending', verify, async (req,res) => {
+    try {
+        console.log("getpending");
+        const user = await User.find({_id: req.params.userid});
+        const races = await Race.find({subscribers: req.params.userid, _id: {$nin: user[0].history}});
+        console.log(races);
+        res.json(races);
+    } catch(err) {
+        console.log(err);
+        res.json({race: err});
+    }
+});
+
+//SAVE RACE TO HISTORY
+
+router.post('/savetohistory/:raceId', verify, async (req, res) => {
+    try {
+        const race = await Race.find({_id: req.params.raceId});
+        const user = await User.find({_id: req.params.userid});
+        user[0].history.push(race[0]._id);
+        await User.where({_id: user[0]._id}).update(user[0]);
+        res.json(race);
+    } catch(err) {
+        console.log(err);
         res.json({race: err});
     }
 });
