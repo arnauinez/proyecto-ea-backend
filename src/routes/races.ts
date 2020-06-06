@@ -10,9 +10,18 @@ const verify = require('../helpers/tokenVerification');
 const RacesHelper = require('../helpers/Races');
 let placesControl = require ("../controllers/placeControl");
 
-app
 
 // Get all races
+
+router.get('/', async (req, res) => {
+    try{
+        const races = await Race.find(); // mongoose method
+        res.json(races);
+    } catch (err) {
+        res.json({race: err});
+    }
+});
+
 router.get('/races', async (req, res) => {
     try{
         const races = await Race.find(); // mongoose method
