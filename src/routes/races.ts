@@ -224,7 +224,9 @@ router.get('/getcomments/:raceId', verify, async (req, res) => {
 router.post('/comment', verify, async (req, res) => {
     let comment = new Comment({        
         author: req.body.author,
-        text: req.body.text        
+        text: req.body.text, 
+        date: req.body.date,
+        time: req.body.time       
     });
     try {        
         const savedComment = await comment.save();
