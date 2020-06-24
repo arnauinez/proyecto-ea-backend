@@ -54,4 +54,5 @@ const RaceSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Races', RaceSchema);
+module.exports = mongoose.model('Race', RaceSchema);//antes era .model('Races', RaceSchema), puede petar muy fuerte
+//                                  /\                                      ^
