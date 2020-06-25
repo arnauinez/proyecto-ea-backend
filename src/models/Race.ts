@@ -51,7 +51,12 @@ const RaceSchema = mongoose.Schema({
     }],
     socketRoom: {
         type: String
-    }
+    },
+
+    comments: [{
+        type: String
+         
+    }]
 });
 
 module.exports = mongoose.model('Race', RaceSchema);//antes era .model('Races', RaceSchema), puede petar muy fuerte
