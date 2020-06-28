@@ -57,5 +57,27 @@ const verify = require('../helpers/tokenVerification');
     res.header('auth-token', token).send({ 'auth-token': token });
  });
 
+ 
+ router.post('/oauthlogin', async (req, res) => {
+    console.log('OAUTH LOG IN');
+    console.log("RQ", req.body.username);
+    //Check if user exists
+    let user = await User.findOne({ username: req.body.username });
+    console.log("user", user);
+    if (!user) {
+        let userToRegister = new User({
+            username: req.body.username,
+            email: req.body.email,
+            // photo: req.body.photo,
+            // rithm: req.body.rithm
+        });
+        const savedUser = await userToRegister.save();
+        user = await User.findOne({ username: req.body.username });
+    }
+    
+    const token = jwt.sign({ id: user._id }, String(process.env.TOKEN_SECRET));
+    res.header('auth-token', token).send({ 'auth-token': token });
+ });
+
 
 module.exports = router;
