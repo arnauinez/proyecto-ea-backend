@@ -3,7 +3,6 @@ import { SocketUser } from '../models/ISocketUser';
 const moment = require('moment');
 // const SocketTools = require('../helpers/SocketTools');
 
-var rooms = ['default'];
 const users: SocketUser[] = [];
 
 const getCurrentUser = (id: string) => {
@@ -30,17 +29,14 @@ exports.socket = (io: SocketIO.Server) => {
                 socket.emit('notify', 'Welcome to /races namespace');
                 socket.on('joinRoom', (room, user) => {
                     console.log(`joining room ${room}`);
-                    if(rooms.includes(room) || true) {
-                        socket.join(room);
-                        userJoin(socket.id, user, room);
-                        socket.emit('notify', `Joined Room: ${room}`);
-                        io
-                            .of('/races')
-                            .in(room)
-                            .emit('notify', `${user} has joined ${room}`);
-                    } else {
-                        return socket.emit('notify', `No room named: ${room}`);
-                    }
+                    socket.join(room);
+                    userJoin(socket.id, user, room);
+                    socket.emit('notify', `Joined Room: ${room}`);
+                    io
+                        .of('/races')
+                        .in(room)
+                        .emit('notify', `${user} has joined this room`);
+                    
                 });
                 
                 socket.on('leaveRoom', (room) => {
@@ -51,9 +47,6 @@ exports.socket = (io: SocketIO.Server) => {
 
                 socket.on('chatMessage', (msg) => {
                     const user = getCurrentUser(socket.id);
-                    console.log(rooms);
-                    console.log(users);
-                    console.log(user);
                     console.log(`msg: ${msg}`);
                     const message = formater(user?.username, msg);
                     console.log(`${user?.room} ${message}`);
