@@ -13,7 +13,6 @@ router.get('/',verify, async (req: any, res: any)=>{
             //user.password = null;//para asegurar
         await user.populate('history').execPopulate();
         //await user.history[].populate('subscribers').execPopulate();
-        console.log(user);
         res.send(user);
         
     }catch(err) {
@@ -51,16 +50,11 @@ router.post('/clearhistory', verify, async (req: any, res: any) => {
         const place: GeolibInputCoordinates = {lat: req.body.N, lng: req.body.E};
         const maxdistance = req.params.distance;
         
-
-        console.log(place);
-        console.log(req.body);
         races.forEach(async function (race: any) {
             if(race.StartingPoint != null){
                 const sp = await Place.findById(race.StartingPoint);
                 if(sp != null){
-                    console.log(sp);
                     const sp2: GeolibInputCoordinates = {lat: sp.N, lng: sp.E};
-                    console.log(getDistance(place, sp2));
                 }
                 else{
                     console.log("null");

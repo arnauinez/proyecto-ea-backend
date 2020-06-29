@@ -29,7 +29,8 @@ exports.socket = (io: SocketIO.Server) => {
                 // Verify
                 socket.emit('notify', 'Welcome to /races namespace');
                 socket.on('joinRoom', (room, user) => {
-                    if(rooms.includes(room)) {
+                    console.log(`joining room ${room}`);
+                    if(rooms.includes(room) || true) {
                         socket.join(room);
                         userJoin(socket.id, user, room);
                         socket.emit('notify', `Joined Room: ${room}`);
@@ -50,6 +51,10 @@ exports.socket = (io: SocketIO.Server) => {
 
                 socket.on('chatMessage', (msg) => {
                     const user = getCurrentUser(socket.id);
+                    console.log(rooms);
+                    console.log(users);
+                    console.log(user);
+                    console.log(`msg: ${msg}`);
                     const message = formater(user?.username, msg);
                     console.log(`${user?.room} ${message}`);
                     // io.to(user?.room).emit('message', message);
